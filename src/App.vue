@@ -1,28 +1,31 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app app>
+    <router-view/>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import { getCookie } from './utils'
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+  created () {
+    if (getCookie('x-access-token') !== null) {
+      this.$http.defaults.headers['x-access-token'] = getCookie('x-access-token')
+    }
+  },
+  watch: {
+    '$route' () {
+      if (this.$router.currentRoute.name != 'Login') {
+        const token = getCookie('x-access-token')
+        if (!token) {
+          this.$router.push({name : 'Login'})
+        }
+      }
+    }
+  },
 }
+
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+@import "./assets/css/app";
 </style>

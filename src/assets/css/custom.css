@@ -1,0 +1,6 @@
+div.v-messages__message{
+    padding-top: 2px;
+}
+.v-tabs.category-tabs .v-tabs-slider-wrapper {
+    width: 90px !important;
+}
